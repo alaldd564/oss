@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import pickle
 from pathlib import Path
 
 from sklearn.datasets import load_wine
@@ -61,6 +62,7 @@ def main() -> None:
     models = build_models()
     lines: list[str] = []
     results = []
+    fitted_models = {}
 
     # 각 모델을 학습하고 테스트 성능과 교차검증 성능을 함께 확인한다.
     for name, model in models.items():
@@ -84,6 +86,7 @@ def main() -> None:
                 "confusion": confusion_matrix(y_test, predictions).tolist(),
             }
         )
+        fitted_models[name] = model
 
     # 랜덤 포레스트를 추가로 튜닝해서 더 좋은 조합을 찾는다.
     tuned_search = tune_random_forest(x_train, y_train, cv)
@@ -106,10 +109,17 @@ def main() -> None:
             "best_params": tuned_search.best_params_,
         }
     )
+    fitted_models["RandomForest(GridSearchCV)"] = tuned_model
 
     best_result = max(results, key=lambda item: item["accuracy"])
     print("최종 선택 모델:", best_result["name"])
     print(f"최고 정확도: {best_result['accuracy']:.4f}")
+
+    # 최종 선택된 모델을 파일로 저장해 재사용할 수 있게 한다.
+    best_model = fitted_models[best_result["name"]]
+    with Path("best_model.pkl").open("wb") as model_file:
+        pickle.dump(best_model, model_file)
+    print("best_model.pkl 파일을 저장했다.")
 
     # 결과를 파일로 저장해 제출 자료로 활용할 수 있게 한다.
     summary = {

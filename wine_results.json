@@ -1,0 +1,78 @@
+{
+  "best_model": "RandomForest",
+  "accuracy": 1.0,
+  "cv_accuracy": 0.9790640394088669,
+  "results": [
+    {
+      "name": "LogisticRegression",
+      "accuracy": 0.9722222222222222,
+      "cv_accuracy": 0.9790640394088669,
+      "confusion": [
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          1,
+          9
+        ]
+      ]
+    },
+    {
+      "name": "RandomForest",
+      "accuracy": 1.0,
+      "cv_accuracy": 0.9790640394088669,
+      "confusion": [
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    {
+      "name": "RandomForest(GridSearchCV)",
+      "accuracy": 1.0,
+      "cv_accuracy": 0.9862068965517242,
+      "confusion": [
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          10
+        ]
+      ],
+      "best_params": {
+        "max_depth": 6,
+        "min_samples_split": 6,
+        "n_estimators": 100
+      }
+    }
+  ]
+}
